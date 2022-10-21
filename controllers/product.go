@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"rapidtech/shoppingcart/database"
 	"rapidtech/shoppingcart/models"
 	"strconv"
@@ -94,22 +95,59 @@ func (controller *ProductController) DeleteProduct(c *fiber.Ctx) error {
 
 
 //POST
-func (controller *ProductController) AddPostedProduct(c *fiber.Ctx) error {
-	// data := new(models.Product)
-	var data models.Product
+// func (controller *ProductController) AddPostedProduct(c *fiber.Ctx) error {
+// 	// data := new(models.Product)
+// 	var data models.Product
 
-		if err := c.BodyParser(&data); err != nil {
-			return c.Redirect("/products")
+// 		if err := c.BodyParser(&data); err != nil {
+// 			return c.Redirect("/products")
+// 		}
+
+// 		err := models.CreateProduct(controller.Db, &data)
+
+// 		if err != nil {
+// 			return c.Redirect("/products")
+// 		}
+
+// 		return c.Redirect("/products")
+// }
+
+func (controller *ProductController) AddPostedProduct(c *fiber.Ctx) error {	
+	if form, err := c.MultipartForm(); err == nil {
+		files := form.File["image"]
+		
+		for _, file := range files {
+			var data models.Product
+			fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
+			
+			if err := c.BodyParser(&data); err != nil {
+				return c.Redirect("/products")
+			}
+			
+			if err := c.SaveFile(file, fmt.Sprintf("./public/upload/%s", file.Filename)); err != nil {
+				return err
+			}
+
+			data.Image = file.Filename
+		
+			err := models.CreateProduct(controller.Db, &data)
+		
+			if err != nil {
+				return c.Redirect("/products")
+			}
+
+			c.Redirect("/products")
 		}
+		return c.JSON(fiber.Map{
+			"message": "gatau1",
+		})
+	}
 
-		err := models.CreateProduct(controller.Db, &data)
-
-		if err != nil {
-			return c.Redirect("/products")
-		}
-
-		return c.Redirect("/products")
+	return c.JSON(fiber.Map{
+		"message": "gatau2",
+	})
 }
+
 
 func (controller *ProductController) EditPostedProduct(c *fiber.Ctx) error {
 	id := c.Params("id")
