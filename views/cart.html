@@ -1,0 +1,35 @@
+{{ template "partials/header" .}}
+
+<h1>Keranjang</h1>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nama Produk</th>
+                <th scope="col"></th>
+                <th scope="col">Qty</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .Cart }}
+            <tr>
+                <th scope="row">{{ .Id }}</th>
+                <td>{{ .Product.Name }}</td>
+                <td>
+                    <img src="/upload/{{ .Product.Image }}" alt="{{ .Product.Image }}" width="200px">
+                </td>
+                <td>{{ .Quantity }}</td>
+                <td>{{ .Total }}</td>
+                <td>
+                    <a href="cart/delete/{{ .Id }}" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+    <a href="products" class="btn btn-success">Belanja lagi</a>
+</div>
+{{ template "partials/footer" .}}
