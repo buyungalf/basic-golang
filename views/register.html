@@ -1,0 +1,25 @@
+{{template "partials/header" .}}
+<h1>Register</h1>
+<br>
+<div>
+    <form method="POST" action="/register">
+        <div class="mb-3">
+            <label for="username" class="form-label">Nama</label>
+            <input type="text" class="form-control" name="name" id="username" placeholder="Nama Lengkap">
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="username" placeholder="mail@company.com">
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="*************">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+{{template "partials/footer" .}}

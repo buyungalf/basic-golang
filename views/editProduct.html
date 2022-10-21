@@ -1,0 +1,44 @@
+{{ template "partials/header" .}}
+
+<h1>Edit Product</h1>
+<div>
+  <form method="post" action="/products/edit/{{ .Product.Id }}">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nama</label>
+      <input
+        type="text"
+        class="form-control"        
+        id="name"
+        name="name"
+        value="{{ .Product.Name }}"
+        aria-describedby="emailHelp"
+        autofocus
+      />
+    </div>
+    <div class="mb-3">
+      <label for="qty" class="form-label">Quantity</label>
+      <input
+        type="text"
+        class="form-control"
+        id="quantity"
+        name="quantity"
+        value="{{ .Product.Quantity }}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input
+        type="text"
+        class="form-control"
+        id="price"
+        name="price"
+        value="{{ .Product.Price }}"
+      />
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="/products" class="btn btn-warning">Back</a>
+    </div>
+  </form>
+</div>
+{{ template "partials/footer" .}}
